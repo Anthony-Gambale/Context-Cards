@@ -64,7 +64,6 @@ function endAuth () {
 
 // tatoeba API
 function search (word, targetLanguage, passResult) {
-  // const base = 'https://tatoeba.org/eng/api_v0'
   const base = 'https://tatoeba.elnu.com'
   const urls = [
     base + `/?from=${targetLanguage}&to=eng&query=${encodeURIComponent(word)}`,
@@ -78,21 +77,6 @@ function search (word, targetLanguage, passResult) {
 
   Promise.all(responses)
     .then(results => {
-      // const sentenceArray = results
-      //   .map(item => item.results)
-      //   .reduce((acc, curr) => acc.concat(curr), [])
-      //   .map(item => {
-      //     if (item.translations[0][0]) {
-      //       return {
-      //         english: item.text,
-      //         targetLanguage: item.translations[0][0].text
-      //       }
-      //     } else {
-      //       return null
-      //     }
-      //   })
-      //   .filter(item => item !== null)
-      // passResult(sentenceArray)
       const toEnglish = results[0].results
         .map(item => {
           if (item.translations[0][0]) {
