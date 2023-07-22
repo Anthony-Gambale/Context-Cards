@@ -1,24 +1,8 @@
 # context-cards
 
-## Project setup
-```
-npm install
-```
+Combining Tatoeba and Anki into one app, so you don't have to manually make your sentence cards anymore.  
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+If you don't want to give up Anki, you can create piles on Context Cards that export to Anki decks with one click.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Future features include real time deck synchronisation between PC and mobile and deeper search results.
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
