@@ -66,8 +66,8 @@ button {
 }
 textarea {
   width: 340px;
-  height: 300px;
-  background-color: cornsilk;
+  height: 100px;
+  background-color: cornsilk; /* change to midnightblue when in dark mode */
 }
 .anki-output {
   margin-bottom: 40px;

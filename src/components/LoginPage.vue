@@ -4,23 +4,38 @@
     Context Cards
   </h1>
 
-  <p class="justify-content-center">
-    {{ flavourText }}
-  </p>
+  <a href="https://en.wikipedia.org/wiki/Spaced_repetition">SRS</a> for learning languages. You can
 
-  <button
-    type="button"
-    class="btn btn-info justify-content-center"
-    @click="beginAuth">
-  Sign In
-  </button>
+  <ul class="justify-content-center">
+    <li>
+      Search <a href="https://tatoeba.org/en/">Tatoeba</a> example sentence database
+    </li>
+    <li>
+      Create sentence cards in one click
+    </li>
+    <li>
+      Export cards to <a href="https://apps.ankiweb.net/">Anki</a> in one click
+    </li>
+    <li>
+      Synchronise cards between devices in real time
+    </li>
+  </ul>
 
-  <button
-    type="button"
-    class="btn btn-link justify-content-center"
-    @click="continueAsGuest">
-  Continue as Guest
-  </button>
+  <div class="loginGroup">
+    <button
+      type="button"
+      class="btn btn-info"
+      @click="beginAuth">
+    Sign In
+    </button>
+
+    <button
+      type="button"
+      class="btn btn-link"
+      @click="continueAsGuest">
+    Continue as Guest
+    </button>
+  </div>
 
 </template>
 
@@ -32,16 +47,16 @@ export default defineComponent({
   props: ['beginAuth', 'continueAsGuest'],
   data () {
     return {
-      // copywriting tips
-      // solve the problem, dont sell the product
-      // e.g. "learn 1000 words" not "get access to a deck of size 1000"
-      // and just more generally, lean towards the results, not the methods
-      // Think of exactly who is reading. AJATT pilled people who use anki but
-      // maybe arent across all the plugin shit
-      flavourText: `The plan for this piece of text is to eventually explain
-      to you what this app does, and why you should use it. However, I'd rather
-      keep working on it at the moment instead of trying to copywrite.`
     }
   }
 })
 </script>
+
+<style scoped>
+.loginGroup {
+  margin-top: 50px;
+}
+li {
+  margin-top: 10px;
+}
+</style>

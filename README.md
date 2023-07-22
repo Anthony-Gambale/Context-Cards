@@ -1,7 +1,10 @@
 # context-cards
 
-Combining example sentence lookup and SRS into one app. This way, instead of manually creating your cards, you can find a sentence and add it to your deck with one click.
+SRS for learning languages. You can
 
-Planned features include deeper search results and realtime synchronisation between devices.
+- Search Tatoeba example sentence database
+- Create sentence cards in one click
+- Export cards to Anki in one click
+- Synchronise cards between devices in real time
 
 ![Demonstration of search and exporting to Anki](src/assets/demonstration.png)

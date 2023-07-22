@@ -1,81 +1,88 @@
 <template>
-  <div class="mobile-view">
+  <div :class="{ 'dark-theme': darkMode }">
+    <div class="mobile-view">
 
-    <!-- Logged in -->
-    <div v-if="loggedIn==1 || loggedIn==3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="darkMode">
+        <label class="form-check-label" for="flexSwitchCheckDefault">Dark theme</label>
+      </div>
 
-      <ul class="nav justify-content-center">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            @click="currentView = 'search'">
-            Search
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            @click="currentView = 'browse'">
-            Browse
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            @click="currentView = 'review'">
-            Review
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            @click="currentView = 'export'">
-            Export to Anki
-          </a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="#"
-            @click="endAuthWrapper()">
-            Sign Out
-          </a>
-        </li>
-      </ul>
+      <!-- Logged in -->
+      <div v-if="loggedIn==1 || loggedIn==3">
 
-      <!-- Views -->
-      <SearchDeck
-        v-if="currentView === 'search'"
-        :search="search"
-        :addToAnkiExportPile="addToAnkiExportPile"
-      />
+        <ul class="nav justify-content-center">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              @click="currentView = 'search'">
+              Search
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              @click="currentView = 'browse'">
+              Browse
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              @click="currentView = 'review'">
+              Review
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              @click="currentView = 'export'">
+              Export to Anki
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="#"
+              @click="endAuthWrapper()">
+              Sign Out
+            </a>
+          </li>
+        </ul>
 
-      <BrowseDeck
-        v-if="currentView === 'browse'"
-      />
+        <!-- Views -->
+        <SearchDeck
+          v-if="currentView === 'search'"
+          :search="search"
+          :addToAnkiExportPile="addToAnkiExportPile"
+        />
 
-      <ReviewDeck
-        v-if="currentView === 'review'"
-      />
+        <BrowseDeck
+          v-if="currentView === 'browse'"
+        />
 
-      <ExportDeck
-        v-if="currentView === 'export'"
-        :readAnkiExportPile="readAnkiExportPile"
-        :removeFromAnkiExportPile="removeFromAnkiExportPile"
+        <ReviewDeck
+          v-if="currentView === 'review'"
+        />
+
+        <ExportDeck
+          v-if="currentView === 'export'"
+          :readAnkiExportPile="readAnkiExportPile"
+          :removeFromAnkiExportPile="removeFromAnkiExportPile"
+        />
+
+      </div>
+
+      <LoginPage
+        v-if="loggedIn==2"
+        :beginAuth="beginAuthWrapper"
+        :continueAsGuest="continueAsGuest"
       />
 
     </div>
-
-    <LoginPage
-      v-if="loggedIn==2"
-      :beginAuth="beginAuthWrapper"
-      :continueAsGuest="continueAsGuest"
-    />
-
   </div>
 </template>
 
@@ -113,7 +120,8 @@ export default {
       loggedIn: 0,
       searchResults: [],
       currentView: 'search',
-      ankiExportPile: []
+      ankiExportPile: [],
+      darkMode: false
     }
   },
   methods: {
@@ -152,5 +160,16 @@ export default {
 }
 button {
   margin-right: 20px;
+}
+</style>
+
+<style>
+.dark-theme {
+  background-color: #1e1e1e;
+  accent-color: #3f3f3f;
+  color: #ddd;
+}
+.form-switch {
+  margin-top: 10px;
 }
 </style>
