@@ -7,16 +7,20 @@
     Generate Anki Deck
   </button>
 
-  <p v-if="ankiDeck !== null" class="fst-italic fw-semibold">
-    Copy this and save it as a text file to import into Anki. Anki requires
-    you to use the '.txt' file extension.
-  </p>
-  <div class="input-group" v-if="ankiDeck !== null">
-    <textarea
-      readonly
-      class="form-control" aria-label="With textarea"
-      v-model="ankiDeck">
-    </textarea>
+  <div class="card anki-output" v-if="ankiDeck !== null">
+    <div class="card-body">
+      <p class="fst-italic fw-semibold">
+        Copy this and save it as a text file to import into Anki. Anki requires
+        you to use the '.txt' file extension.
+      </p>
+      <div class="input-group">
+        <textarea
+          readonly
+          class="form-control" aria-label="With textarea"
+          v-model="ankiDeck">
+        </textarea>
+      </div>
+    </div>
   </div>
 
   <BrowseCard
@@ -63,6 +67,10 @@ button {
 textarea {
   width: 340px;
   height: 300px;
+  background-color: cornsilk;
+}
+.anki-output {
   margin-bottom: 40px;
+  background-color: cornsilk;
 }
 </style>
