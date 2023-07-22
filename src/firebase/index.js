@@ -78,9 +78,35 @@ function search (word, targetLanguage, passResult) {
 
   Promise.all(responses)
     .then(results => {
-      const sentenceArray = results
-        .map(item => item.results)
-        .reduce((acc, curr) => acc.concat(curr), [])
+      // const sentenceArray = results
+      //   .map(item => item.results)
+      //   .reduce((acc, curr) => acc.concat(curr), [])
+      //   .map(item => {
+      //     if (item.translations[0][0]) {
+      //       return {
+      //         english: item.text,
+      //         targetLanguage: item.translations[0][0].text
+      //       }
+      //     } else {
+      //       return null
+      //     }
+      //   })
+      //   .filter(item => item !== null)
+      // passResult(sentenceArray)
+      const toEnglish = results[0].results
+        .map(item => {
+          if (item.translations[0][0]) {
+            return {
+              english: item.translations[0][0].text,
+              targetLanguage: item.text
+            }
+          } else {
+            return null
+          }
+        })
+        .filter(item => item !== null)
+      
+      const fromEnglish = results[1].results
         .map(item => {
           if (item.translations[0][0]) {
             return {
@@ -92,7 +118,12 @@ function search (word, targetLanguage, passResult) {
           }
         })
         .filter(item => item !== null)
-      passResult(sentenceArray)
+
+      if (fromEnglish.length > toEnglish.length) {
+        passResult(fromEnglish)
+      } else {
+        passResult(toEnglish)
+      }
     })
 }
 

@@ -51,6 +51,7 @@
       <SearchDeck
         v-if="currentView === 'search'"
         :search="search"
+        :addToAnkiExportPile="addToAnkiExportPile"
       />
 
       <BrowseDeck
@@ -63,6 +64,8 @@
 
       <ExportDeck
         v-if="currentView === 'export'"
+        :readAnkiExportPile="readAnkiExportPile"
+        :removeFromAnkiExportPile="removeFromAnkiExportPile"
       />
 
     </div>
@@ -109,7 +112,8 @@ export default {
       */
       loggedIn: 0,
       searchResults: [],
-      currentView: 'search'
+      currentView: 'search',
+      ankiExportPile: []
     }
   },
   methods: {
@@ -124,6 +128,15 @@ export default {
     },
     continueAsGuest () {
       this.loggedIn = 3
+    },
+    addToAnkiExportPile (card) {
+      this.ankiExportPile.push(card)
+    },
+    readAnkiExportPile () {
+      return this.ankiExportPile
+    },
+    removeFromAnkiExportPile (removeCard) {
+      this.ankiExportPile = this.ankiExportPile.filter(card => card !== removeCard)
     }
   },
   mounted () {

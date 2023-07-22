@@ -8,10 +8,16 @@
         </div>
         <div class="row">
           <div class="col-xxl text-right">
-            <button class="btn btn-success btn-sm" @click="doNothing()">
+            <button
+              class="btn btn-success btn-sm"
+              v-if="!addToDeckButtonPressed"
+              @click="clickAddToDeckButton()">
               Add to Deck
             </button>
-            <button class="btn btn-info btn-sm" @click="doNothing()">
+            <button
+              class="btn btn-info btn-sm"
+              v-if="!ankiExportButtonPressed"
+              @click="clickAnkiExportButton()">
               Add to Anki Export Pile
             </button>
           </div>
@@ -23,10 +29,33 @@
 
 <script>
 export default {
-  props: ['searchResult'],
+  props: ['searchResult', 'addToAnkiExportPile'],
+  data () {
+    return {
+      ankiExportButtonPressed: false,
+      addToDeckButtonPressed: false
+    }
+  },
   methods: {
-    doNothing () {
-      console.log('Functionality coming soon')
+    clickAnkiExportButton () {
+      if (!this.ankiExportButtonPressed) {
+        this.ankiExportButtonPressed = true
+        this.addToAnkiExportPile(this.searchResult)
+      }
+    },
+    clickAddToDeckButton () {
+      if (!this.addToDeckButtonPressed) {
+        this.addToDeckButtonPressed = true
+        // do something
+      }
+    }
+  },
+  watch: {
+    searchResult: {
+      handler () {
+        this.addToDeckButtonPressed = false
+        this.ankiExportButtonPressed = false
+      }
     }
   }
 }

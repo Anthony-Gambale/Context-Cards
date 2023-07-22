@@ -40,6 +40,7 @@
     v-for="(sentence, i) in searchResults"
     :key="i"
     :searchResult="sentence"
+    :addToAnkiExportPile="addToAnkiExportPile"
   />
 
 </template>
@@ -54,7 +55,7 @@ import languages from '@/languages.json'
 import SearchCard from '@/components/SearchCard.vue'
 
 export default defineComponent({
-  props: ['search'],
+  props: ['search', 'addToAnkiExportPile'],
   components: {
     SearchCard
   },
@@ -63,7 +64,7 @@ export default defineComponent({
       if (this.targetLanguage === null) {
         return ''
       }
-      return 'Search English or ' + this.targetLanguage
+      return 'Search in English or ' + this.targetLanguage
     },
     dropDownText () {
       if (this.targetLanguage == null) {
