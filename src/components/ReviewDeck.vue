@@ -13,7 +13,7 @@
   />
 
   <p v-if="emptyDeck">
-    Deck is empty, nothing to review.
+    Deck is too small to review. Add some more cards to your deck.
   </p>
 
 </template>

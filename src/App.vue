@@ -170,30 +170,23 @@ export default {
       this.persistDeck()
     },
     getNextReviewCard () {
-      // take card from first pile with >1 cards
-      // this is to avoid showing the user the same card over and over
-      console.log(this.deck)
-      for (let x = 0; x < this.deck.length; x++) {
-        if (this.deck[x].length > 1) {
-          return {
-            card: this.deck[x][0],
-            pileno: x
+      let validPiles = []
+      for (let pile = 0; pile < 5; pile++) {
+        if (this.deck[pile].length > 1) { // check if a pile has 2+ cards
+          for (let x = 0; x < 5 - pile; x++) { // add smaller piles more frequently
+            validPiles.push(pile)
           }
         }
       }
-      // if all piles have 0 or 1 cards, do first pile with 1 card
-      for (let x = 0; x < this.deck.length; x++) {
-        if (this.deck[x].length > 0) {
-          return {
-            card: this.deck[x][0],
-            pileno: x
-          }
-        }
-      }
-      // case of empty deck
-      return {
+      if (validPiles.length == 0) return {
         card: null,
         pileno: null
+      }
+      const randomPile = validPiles[Math.floor(Math.random() * validPiles.length)]
+      console.log(validPiles, randomPile)
+      return {
+        card: this.deck[randomPile][0],
+        pileno: randomPile
       }
     },
     readDeck () {
