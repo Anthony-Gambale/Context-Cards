@@ -62,5 +62,9 @@
     {
         "name": "Telugu",
         "code": "tel"
+    },
+    {
+        "name": "Tamil",
+        "code": "tam"
     }
 ]

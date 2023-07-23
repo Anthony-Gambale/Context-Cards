@@ -8,18 +8,23 @@
         </div>
         <div class="row">
           <div class="col-xxl text-right">
+            
             <button
               class="btn btn-success btn-sm"
-              v-if="!addToDeckButtonPressed"
+              :disabled="addToDeckButtonPressed"
+              v-if="true"
               @click="clickAddToDeckButton()">
               Add to Deck
             </button>
+
             <button
               class="btn btn-info btn-sm"
-              v-if="!ankiExportButtonPressed"
+              :disabled="ankiExportButtonPressed"
+              v-if="true"
               @click="clickAnkiExportButton()">
               Add to Anki Export Pile
             </button>
+
           </div>
         </div>
       </div>
@@ -29,7 +34,7 @@
 
 <script>
 export default {
-  props: ['searchResult', 'addToAnkiExportPile'],
+  props: ['searchResult', 'addToAnkiExportPile', 'addToDeck'],
   data () {
     return {
       ankiExportButtonPressed: false,
@@ -46,7 +51,7 @@ export default {
     clickAddToDeckButton () {
       if (!this.addToDeckButtonPressed) {
         this.addToDeckButtonPressed = true
-        // do something
+        this.addToDeck(this.searchResult)
       }
     }
   },

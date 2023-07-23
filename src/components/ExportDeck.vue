@@ -2,12 +2,16 @@
   <h1>Export to Anki</h1>
 
   <button
-    type="button" class="btn btn-warning"
+    :disabled="readAnkiExportPile().length == 0"
+    type="button"
+    :class="darkMode ? 'btn btn-secondary' : 'btn btn-warning'"
     @click="generateAnkiDeck">
     Generate Anki Deck
   </button>
 
-  <div class="card anki-output" v-if="ankiDeck !== null">
+  <div
+    :class="darkMode ? 'card anki-output-dark' : 'card anki-output-light'"
+    v-if="ankiDeck !== null">
     <div class="card-body">
       <p class="fst-italic fw-semibold">
         Copy this and save it as a text file to import into Anki. Anki requires
@@ -16,18 +20,23 @@
       <div class="input-group">
         <textarea
           readonly
-          class="form-control" aria-label="With textarea"
+          :class="darkMode ? 'form-control anki-textarea-dark' : 'form-control anki-textarea-light'"
+          aria-label="With textarea"
           v-model="ankiDeck">
         </textarea>
       </div>
     </div>
   </div>
 
+  <p v-if="readAnkiExportPile().length == 0">
+    Anki export pile is empty.
+  </p>
+
   <BrowseCard
     v-for="(card, i) in readAnkiExportPile()"
     :key="i"
     :card="card"
-    :removeFromAnkiExportPile="removeFromAnkiExportPile"
+    :remove="removeFromAnkiExportPile"
   />
 
 </template>
@@ -37,7 +46,7 @@ import { defineComponent } from 'vue'
 import BrowseCard from '@/components/BrowseCard.vue'
 
 export default defineComponent({
-  props: ['readAnkiExportPile', 'removeFromAnkiExportPile'],
+  props: ['readAnkiExportPile', 'removeFromAnkiExportPile', 'darkMode'],
   data () {
     return {
       ankiDeck: null
@@ -64,13 +73,22 @@ button {
   margin-top: 10px;
   margin-bottom: 20px;
 }
-textarea {
+.anki-textarea-light {
   width: 340px;
   height: 100px;
   background-color: cornsilk; /* change to midnightblue when in dark mode */
 }
-.anki-output {
+.anki-output-light {
   margin-bottom: 40px;
   background-color: cornsilk;
+}
+.anki-textarea-dark {
+  width: 340px;
+  height: 100px;
+  background-color: midnightblue; /* change to midnightblue when in dark mode */
+}
+.anki-output-dark {
+  margin-bottom: 40px;
+  background-color: midnightblue;
 }
 </style>

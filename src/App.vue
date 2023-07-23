@@ -1,88 +1,92 @@
 <template>
-  <div :class="{ 'dark-theme': darkMode }">
-    <div class="mobile-view">
+  <div class="mobile-view">
 
+    <div class="input-group">
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" v-model="darkMode">
-        <label class="form-check-label" for="flexSwitchCheckDefault">Dark theme</label>
+        <label class="form-check-label" for="flexSwitchCheckDefault">Dark</label>
       </div>
 
-      <!-- Logged in -->
-      <div v-if="loggedIn==1 || loggedIn==3">
+      <button
+        type="button"
+        v-if="loggedIn==1 || loggedIn==3"
+        :class="darkMode ? 'btn btn-dark btn-sm sign-out' : 'btn btn-light btn-sm sign-out'"
+        @click="endAuthWrapper">
+        Sign Out
+      </button>
+    </div>
 
-        <ul class="nav justify-content-center">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click="currentView = 'search'">
-              Search
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click="currentView = 'browse'">
-              Browse
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click="currentView = 'review'">
-              Review
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click="currentView = 'export'">
-              Export to Anki
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              href="#"
-              @click="endAuthWrapper()">
-              Sign Out
-            </a>
-          </li>
-        </ul>
+    <!-- Logged in -->
+    <div v-if="loggedIn==1 || loggedIn==3">
 
-        <!-- Views -->
-        <SearchDeck
-          v-if="currentView === 'search'"
-          :search="search"
-          :addToAnkiExportPile="addToAnkiExportPile"
-        />
+      <ul class="nav nav-underline justify-content-center">
+        <li class="nav-item">
+          <a
+            :class="currentView == 'search' ? 'nav-link active' : 'nav-link'"
+            href="#"
+            @click="currentView = 'search'">
+            Search
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+          :class="currentView == 'browse' ? 'nav-link active' : 'nav-link'"
+            href="#"
+            @click="currentView = 'browse'">
+            Browse
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+          :class="currentView == 'review' ? 'nav-link active' : 'nav-link'"
+            href="#"
+            @click="currentView = 'review'">
+            Review
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+          :class="currentView == 'export' ? 'nav-link active' : 'nav-link'"
+            href="#"
+            @click="currentView = 'export'">
+            Export to Anki
+          </a>
+        </li>
+      </ul>
 
-        <BrowseDeck
-          v-if="currentView === 'browse'"
-        />
+      <!-- Views -->
+      <SearchDeck
+        v-if="currentView === 'search'"
+        :search="search"
+        :addToAnkiExportPile="addToAnkiExportPile"
+        :addToDeck="addToDeck"
+      />
 
-        <ReviewDeck
-          v-if="currentView === 'review'"
-        />
+      <BrowseDeck
+        v-if="currentView === 'browse'"
+        :readDeck="readDeck"
+        :removeFromDeck="removeFromDeck"
+      />
 
-        <ExportDeck
-          v-if="currentView === 'export'"
-          :readAnkiExportPile="readAnkiExportPile"
-          :removeFromAnkiExportPile="removeFromAnkiExportPile"
-        />
+      <ReviewDeck
+        v-if="currentView === 'review'"
+      />
 
-      </div>
-
-      <LoginPage
-        v-if="loggedIn==2"
-        :beginAuth="beginAuthWrapper"
-        :continueAsGuest="continueAsGuest"
+      <ExportDeck
+        v-if="currentView === 'export'"
+        :readAnkiExportPile="readAnkiExportPile"
+        :removeFromAnkiExportPile="removeFromAnkiExportPile"
+        :darkMode="darkMode"
       />
 
     </div>
+
+    <LoginPage
+      v-if="loggedIn==2"
+      :beginAuth="beginAuthWrapper"
+      :continueAsGuest="continueAsGuest"
+    />
+
   </div>
 </template>
 
@@ -121,6 +125,7 @@ export default {
       searchResults: [],
       currentView: 'search',
       ankiExportPile: [],
+      deck: [],
       darkMode: false
     }
   },
@@ -145,10 +150,49 @@ export default {
     },
     removeFromAnkiExportPile (removeCard) {
       this.ankiExportPile = this.ankiExportPile.filter(card => card !== removeCard)
+    },
+    addToDeck (card) {
+      // initialise memory value here
+      this.deck.push(card)
+      this.persistDeck()
+    },
+    readDeck () {
+      return this.deck
+    },
+    removeFromDeck (removeCard) {
+      this.deck = this.deck.filter(card => card !== removeCard)
+      this.persistDeck()
+    },
+    persistDeck () {
+      const json = JSON.stringify(this.deck)
+      console.log(json)
+      localStorage.deck = json
     }
   },
   mounted () {
+    // if (localStorage.deck !== '' && localStorage.deck !== 'undefined') {
+    //   this.deck = JSON.parse(localStorage.deck)
+    // }
+    try {
+      this.deck = JSON.parse(localStorage.deck)
+    } catch (e) {
+      console.log(e)
+    }
+    this.darkMode = localStorage.darkMode == 'enabled'
     passWriteLoggedIn(this.writeLoggedIn)
+  },
+  watch: {
+    darkMode: {
+      handler () {
+        localStorage.darkMode = this.darkMode ? 'enabled' : 'disabled'
+        const htmlTag = document.querySelector('html')
+        if (this.darkMode) {
+          htmlTag.setAttribute('data-bs-theme', 'dark')
+        } else {
+          htmlTag.setAttribute('data-bs-theme', null)
+        }
+      }
+    }
   }
 }
 </script>
@@ -161,15 +205,19 @@ export default {
 button {
   margin-right: 20px;
 }
+.sign-out {
+  margin-top: 7px;
+}
 </style>
 
 <style>
-.dark-theme {
+/* .dark-theme {
   background-color: #1e1e1e;
   accent-color: #3f3f3f;
   color: #ddd;
-}
+} */
 .form-switch {
   margin-top: 10px;
+  margin-right: 30px;
 }
 </style>

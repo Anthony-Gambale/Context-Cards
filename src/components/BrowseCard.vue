@@ -8,7 +8,7 @@
         </div>
         <div class="row">
           <div class="col-xxl text-right">
-            <button class="btn btn-danger btn-sm" @click="removeFromAnkiExportPile(card)">
+            <button class="btn btn-danger btn-sm" @click="remove(card)">
               Remove
             </button>
           </div>
@@ -20,7 +20,7 @@
 
 <script>
 export default {
-  props: ['card', 'removeFromAnkiExportPile'],
+  props: ['card', 'remove'],
   methods: {
     doNothing () {
       console.log('Functionality coming soon')

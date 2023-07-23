@@ -41,6 +41,7 @@
     :key="i"
     :searchResult="sentence"
     :addToAnkiExportPile="addToAnkiExportPile"
+    :addToDeck="addToDeck"
   />
 
 </template>
@@ -55,7 +56,7 @@ import languages from '@/languages.json'
 import SearchCard from '@/components/SearchCard.vue'
 
 export default defineComponent({
-  props: ['search', 'addToAnkiExportPile'],
+  props: ['search', 'addToAnkiExportPile', 'addToDeck'],
   components: {
     SearchCard
   },
