@@ -1,16 +1,18 @@
 <template>
   <h1>Browse Deck</h1>
 
-  <p v-if="readDeck().length == 0">
-    Deck is empty.
-  </p>
-
-  <BrowseCard
-    v-for="(card, i) in readDeck()"
-    :key="i"
-    :card="card"
-    :remove="removeFromDeck"
-  />
+  <div
+    v-for="(pile, i) in readDeck()"
+    :key="i">
+    <h4 v-if="pile.length > 0">Memory Level {{ i }}</h4>
+    <BrowseCard
+      v-for="(card, j) in pile"
+      :key="j"
+      :card="card"
+      :pile="i"
+      :remove="removeFromDeck"
+    />
+  </div>
 
 </template>
 
@@ -25,3 +27,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style scoped>
+h4 {
+  margin-top: 30px;
+}
+</style>

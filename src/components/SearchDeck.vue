@@ -62,7 +62,7 @@ export default defineComponent({
   },
   computed: {
     searchBarText () {
-      if (this.targetLanguage === null) {
+      if (this.targetLanguage == null || this.targetLanguage == 'undefined') {
         return ''
       }
       return 'Search in English or ' + this.targetLanguage
@@ -85,7 +85,7 @@ export default defineComponent({
   },
   methods: {
     clickSearch () {
-      if (this.targetLanguage === null) return
+      if (this.targetLanguage == null || this.targetLanguage == 'undefined') return
       this.spinnerEnabled = true
       search(
         this.searchText,
@@ -112,7 +112,6 @@ export default defineComponent({
   },
   mounted () {
     if (localStorage.targetLanguage !== '') {
-      // no need for JSON, just storing a string
       this.targetLanguage = localStorage.targetLanguage
     }
   },

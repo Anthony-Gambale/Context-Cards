@@ -11,6 +11,9 @@
             <button class="btn btn-danger btn-sm" @click="remove(card)">
               Remove
             </button>
+            <!-- <button type="button" class="btn btn-sm" v-if="pile !== null">
+              Memory score: {{ pile }}
+            </button> -->
           </div>
         </div>
       </div>
@@ -20,7 +23,7 @@
 
 <script>
 export default {
-  props: ['card', 'remove'],
+  props: ['card', 'remove', 'pile'],
   methods: {
     doNothing () {
       console.log('Functionality coming soon')

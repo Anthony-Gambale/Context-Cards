@@ -30,15 +30,15 @@
         </li>
         <li class="nav-item">
           <a
-          :class="currentView == 'browse' ? 'nav-link active' : 'nav-link'"
+            :class="currentView == 'browse' ? 'nav-link active' : 'nav-link'"
             href="#"
             @click="currentView = 'browse'">
-            Browse
+            Deck
           </a>
         </li>
         <li class="nav-item">
           <a
-          :class="currentView == 'review' ? 'nav-link active' : 'nav-link'"
+            :class="currentView == 'review' ? 'nav-link active' : 'nav-link'"
             href="#"
             @click="currentView = 'review'">
             Review
@@ -46,7 +46,7 @@
         </li>
         <li class="nav-item">
           <a
-          :class="currentView == 'export' ? 'nav-link active' : 'nav-link'"
+            :class="currentView == 'export' ? 'nav-link active' : 'nav-link'"
             href="#"
             @click="currentView = 'export'">
             Export to Anki
@@ -70,6 +70,11 @@
 
       <ReviewDeck
         v-if="currentView === 'review'"
+        :getNextReviewCard="getNextReviewCard"
+        :removeFromDeck="removeFromDeck"
+        :addToPile="addToPile"
+        :maxPileIdx="nPiles-1"
+        :darkMode="darkMode"
       />
 
       <ExportDeck
@@ -126,6 +131,7 @@ export default {
       currentView: 'search',
       ankiExportPile: [],
       deck: [],
+      nPiles: 5,
       darkMode: false
     }
   },
@@ -152,31 +158,65 @@ export default {
       this.ankiExportPile = this.ankiExportPile.filter(card => card !== removeCard)
     },
     addToDeck (card) {
-      // initialise memory value here
-      this.deck.push(card)
+      this.deck[0].unshift(card) // add new cards to the *top* of the 0th pile
       this.persistDeck()
+    },
+    addToPile (card, pileIdx) {
+      if (pileIdx < this.deck.length) {
+        this.deck[pileIdx].push(card) // add reviewed cards to the *bottom* of the ith pile
+      } else {
+        console.log('tried to add a card ' + card + ' to non-existing pile ' + pileIdx)
+      }
+      this.persistDeck()
+    },
+    getNextReviewCard () {
+      // take card from first pile with >1 cards
+      // this is to avoid showing the user the same card over and over
+      console.log(this.deck)
+      for (let x = 0; x < this.deck.length; x++) {
+        if (this.deck[x].length > 1) {
+          return {
+            card: this.deck[x][0],
+            pileno: x
+          }
+        }
+      }
+      // if all piles have 0 or 1 cards, do first pile with 1 card
+      for (let x = 0; x < this.deck.length; x++) {
+        if (this.deck[x].length > 0) {
+          return {
+            card: this.deck[x][0],
+            pileno: x
+          }
+        }
+      }
+      // case of empty deck
+      return {
+        card: null,
+        pileno: null
+      }
     },
     readDeck () {
       return this.deck
     },
     removeFromDeck (removeCard) {
-      this.deck = this.deck.filter(card => card !== removeCard)
+      for (let x = 0; x < this.deck.length; x++) {
+        this.deck[x] = this.deck[x].filter(card => card !== removeCard)
+      }
       this.persistDeck()
     },
     persistDeck () {
       const json = JSON.stringify(this.deck)
-      console.log(json)
       localStorage.deck = json
     }
   },
   mounted () {
-    // if (localStorage.deck !== '' && localStorage.deck !== 'undefined') {
-    //   this.deck = JSON.parse(localStorage.deck)
-    // }
     try {
       this.deck = JSON.parse(localStorage.deck)
     } catch (e) {
-      console.log(e)
+      for (let x = 0; x < this.nPiles; x++) {
+        this.deck.push([])
+      }
     }
     this.darkMode = localStorage.darkMode == 'enabled'
     passWriteLoggedIn(this.writeLoggedIn)
@@ -208,14 +248,13 @@ button {
 .sign-out {
   margin-top: 7px;
 }
+.nav {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 </style>
 
 <style>
-/* .dark-theme {
-  background-color: #1e1e1e;
-  accent-color: #3f3f3f;
-  color: #ddd;
-} */
 .form-switch {
   margin-top: 10px;
   margin-right: 30px;

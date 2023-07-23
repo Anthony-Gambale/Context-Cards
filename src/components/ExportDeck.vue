@@ -36,6 +36,7 @@
     v-for="(card, i) in readAnkiExportPile()"
     :key="i"
     :card="card"
+    :pile="null"
     :remove="removeFromAnkiExportPile"
   />
 

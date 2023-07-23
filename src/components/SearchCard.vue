@@ -12,7 +12,6 @@
             <button
               class="btn btn-success btn-sm"
               :disabled="addToDeckButtonPressed"
-              v-if="true"
               @click="clickAddToDeckButton()">
               Add to Deck
             </button>
@@ -20,7 +19,6 @@
             <button
               class="btn btn-info btn-sm"
               :disabled="ankiExportButtonPressed"
-              v-if="true"
               @click="clickAnkiExportButton()">
               Add to Anki Export Pile
             </button>
