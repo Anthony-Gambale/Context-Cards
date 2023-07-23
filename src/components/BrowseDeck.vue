@@ -1,6 +1,10 @@
 <template>
   <h1>Browse Deck</h1>
 
+  <p v-if="isEmpty()">
+    Deck is empty.
+  </p>
+
   <div
     v-for="(pile, i) in readDeck()"
     :key="i">
@@ -24,6 +28,11 @@ export default defineComponent({
   props: ['readDeck', 'removeFromDeck'],
   components: {
     BrowseCard
+  },
+  methods: {
+    isEmpty () {
+      return this.readDeck().map(pile => pile.length).reduce((acc,curr) => acc + curr, 0) == 0
+    }
   }
 })
 </script>

@@ -68,7 +68,7 @@ export default defineComponent({
       return 'Search in English or ' + this.targetLanguage
     },
     dropDownText () {
-      if (this.targetLanguage == null) {
+      if (this.targetLanguage == null || this.targetLanguage == 'undefined') {
         return 'Select Target Language'
       }
       return this.targetLanguage
