@@ -9,7 +9,7 @@ SRS for learning languages. You can
 
 ![Demonstration of search and exporting to Anki](src/assets/demonstration.png)
 
-The SRS uses a rudimentary algorithm involving two piles, a weak and strong pile. When reviewing, you will be shown cards from the weak pile first. Once you move all of the cards from the weak pile to the strong pile, you will be shown cards from the strong pile. As you forget cards, they will be moved back into the weak pile. Reviewing will switch from the strong pile back to the weak pile when it has grown to at least 5 cards.
+The SRS algorithm is quite rudimentary, as illustrated by the flow chart below. Piles with a lower value represent sets of cards that are less well known to the user. We use a small number of piles (N = 5 at the moment) to achieve a better sorting speed.
 
-![Explanation of SRS algorithm](src/assets/SRS_algorithm.svg)
+![SRS algorithm drawin](src/assets/SRS_algorithm.svg)
 
