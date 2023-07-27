@@ -17,7 +17,7 @@
       Export cards to <a href="https://apps.ankiweb.net/">Anki</a> in one click
     </li>
     <li>
-      Synchronise cards between devices in real time (not complete)
+      Synchronise cards between devices in real time <b>(work in progress)</b>
     </li>
   </ul>
 

@@ -13,7 +13,7 @@
   />
 
   <p v-if="emptyDeck">
-    Deck is too small to review. Add some more cards to your deck.
+    Your deck must have at least 6 cards to begin reviewing.
   </p>
 
 </template>
@@ -24,7 +24,7 @@ import ReviewCard from '@/components/ReviewCard.vue'
 
 export default defineComponent({
   props: ['getNextReviewCard', 'removeFromDeck', 'addToPile',
-          'maxPileIdx', 'darkMode'],
+          'maxPileIdx', 'darkMode', 'updatePreviousReviewedPile'],
   data () {
     return {
       emptyDeck: false,
@@ -48,6 +48,7 @@ export default defineComponent({
       }
     },
     loadNextCard () {
+      this.updatePreviousReviewedPile(this.currentPile)
       this.getNextReviewCardWrapper()
     }
   },

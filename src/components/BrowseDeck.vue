@@ -5,6 +5,10 @@
     Deck is empty.
   </p>
 
+  <p v-if="!isEmpty()">
+    Your deck has {{ deckSize() }} card(s).
+  </p>
+
   <div
     v-for="(pile, i) in readDeck()"
     :key="i">
@@ -31,7 +35,10 @@ export default defineComponent({
   },
   methods: {
     isEmpty () {
-      return this.readDeck().map(pile => pile.length).reduce((acc,curr) => acc + curr, 0) == 0
+      return this.deckSize() == 0
+    },
+    deckSize () {
+      return this.readDeck().map(pile => pile.length).reduce((acc,curr) => acc + curr, 0)
     }
   }
 })

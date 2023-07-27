@@ -75,6 +75,7 @@
         :addToPile="addToPile"
         :maxPileIdx="nPiles-1"
         :darkMode="darkMode"
+        :updatePreviousReviewedPile="updatePreviousReviewedPile"
       />
 
       <ExportDeck
@@ -132,6 +133,7 @@ export default {
       ankiExportPile: [],
       deck: [],
       nPiles: 5,
+      prevPile: -1,
       darkMode: false
     }
   },
@@ -158,7 +160,7 @@ export default {
       this.ankiExportPile = this.ankiExportPile.filter(card => card !== removeCard)
     },
     addToDeck (card) {
-      this.deck[0].unshift(card) // add new cards to the *top* of the 0th pile
+      this.deck[0].push(card) // add new cards to the *bottom* of the 0th pile
       this.persistDeck()
     },
     addToPile (card, pileIdx) {
@@ -170,20 +172,40 @@ export default {
       this.persistDeck()
     },
     getNextReviewCard () {
+      // check deck size
+      if (this.deck.map(pile => pile.length).reduce((acc,curr) => acc + curr, 0) < 6) {
+        return {
+          card: null,
+          pileno: null
+        }
+      }
+
+      // filter for valid piles
       let validPiles = []
       for (let pile = 0; pile < 5; pile++) {
-        if (this.deck[pile].length > 1) { // check if a pile has 2+ cards
-          for (let x = 0; x < 5 - pile; x++) { // add smaller piles more frequently
+        let tooSmall = this.deck[pile].length < 1
+        let onlyOneCard = this.deck[pile].length == 1
+        let repeatedPile = (pile == 0) || (pile == this.prevPile + 1)
+        if (!tooSmall && !(onlyOneCard && repeatedPile)) {
+          for (let x = 0; x < 5 - pile; x++) {
             validPiles.push(pile)
           }
         }
       }
-      if (validPiles.length == 0) return {
-        card: null,
-        pileno: null
+
+      // this should never happen
+      if (validPiles.length == 0) {
+        console.log('there are no valid piles - this should never happen')
+        return {
+          card: null,
+          pileno: null
+        }
       }
+
+      // select random pile
       const randomPile = validPiles[Math.floor(Math.random() * validPiles.length)]
       console.log(validPiles, randomPile)
+      // this.prevPile = randomPile
       return {
         card: this.deck[randomPile][0],
         pileno: randomPile
@@ -201,6 +223,10 @@ export default {
     persistDeck () {
       const json = JSON.stringify(this.deck)
       localStorage.deck = json
+    },
+    updatePreviousReviewedPile (newPrevPile) {
+      console.log('previous pile has been updated to ' + newPrevPile)
+      this.prevPile = newPrevPile
     }
   },
   mounted () {
