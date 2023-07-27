@@ -47,7 +47,8 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: ['card', 'currentPileIdx', 'maxPileIdx', 'darkMode',
-          'removeFromDeck', 'addToPile', 'loadNextCard'],
+          'removeFromDeck', 'addToPile', 'loadNextCard',
+          'updatePreviousRemembered', 'updatePreviousForgot'],
   data () {
     return {
       revealed: false
@@ -61,6 +62,7 @@ export default defineComponent({
       this.removeFromDeck(this.card)
       this.addToPile(this.card, 0)
       this.revealed = false
+      this.updatePreviousForgot()
       this.loadNextCard()
     },
     remembered () {
@@ -71,6 +73,7 @@ export default defineComponent({
         this.addToPile(this.card, this.currentPileIdx + 1)
       }
       this.revealed = false
+      this.updatePreviousRemembered()
       this.loadNextCard()
     }
   }

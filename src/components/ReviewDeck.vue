@@ -10,6 +10,8 @@
     :loadNextCard="loadNextCard"
     :maxPileIdx="maxPileIdx"
     :darkMode="darkMode"
+    :updatePreviousRemembered="updatePreviousRemembered"
+    :updatePreviousForgot="updatePreviousForgot"
   />
 
   <p v-if="emptyDeck">
@@ -24,7 +26,8 @@ import ReviewCard from '@/components/ReviewCard.vue'
 
 export default defineComponent({
   props: ['getNextReviewCard', 'removeFromDeck', 'addToPile',
-          'maxPileIdx', 'darkMode', 'updatePreviousReviewedPile'],
+          'maxPileIdx', 'darkMode', 'updatePreviousReviewedPile',
+          'updatePreviousRemembered', 'updatePreviousForgot'],
   data () {
     return {
       emptyDeck: false,

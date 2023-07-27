@@ -76,6 +76,8 @@
         :maxPileIdx="nPiles-1"
         :darkMode="darkMode"
         :updatePreviousReviewedPile="updatePreviousReviewedPile"
+        :updatePreviousRemembered="updatePreviousRemembered"
+        :updatePreviousForgot="updatePreviousForgot"
       />
 
       <ExportDeck
@@ -134,6 +136,8 @@ export default {
       deck: [],
       nPiles: 5,
       prevPile: -1,
+      prevForgot: false,
+      prevRemembered: false,
       darkMode: false
     }
   },
@@ -185,8 +189,11 @@ export default {
       for (let pile = 0; pile < 5; pile++) {
         let tooSmall = this.deck[pile].length < 1
         let onlyOneCard = this.deck[pile].length == 1
-        let repeatedPile = (pile == 0) || (pile == this.prevPile + 1)
-        if (!tooSmall && !(onlyOneCard && repeatedPile)) {
+        let nextPile = Math.min(4, this.prevPile + 1)
+        let forgotAndZero = (pile == 0) && this.prevForgot // we might see the same card twice in a row
+        let rememberedAndNext = (pile == nextPile) && this.prevRemembered // we might see the same card twice in a row
+        let forbidOneCard = forgotAndZero || rememberedAndNext
+        if (!tooSmall && !(onlyOneCard && forbidOneCard)) {
           for (let x = 0; x < 5 - pile; x++) {
             validPiles.push(pile)
           }
@@ -227,6 +234,16 @@ export default {
     updatePreviousReviewedPile (newPrevPile) {
       console.log('previous pile has been updated to ' + newPrevPile)
       this.prevPile = newPrevPile
+    },
+    updatePreviousRemembered () {
+      console.log('previous review is updated to remembered')
+      this.prevRemembered = true
+      this.prevForgot = false
+    },
+    updatePreviousForgot () {
+      console.log('previous review is updated to forgotten')
+      this.prevRemembered = false
+      this.prevForgot = true
     }
   },
   mounted () {
