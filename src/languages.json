@@ -66,5 +66,17 @@
     {
         "name": "Tamil",
         "code": "tam"
+    },
+    {
+        "name": "Yoruba",
+        "code": "yor"
+    },
+    {
+        "name": "Korean",
+        "code": "kor"
+    },
+    {
+        "name": "Cantonese",
+        "code": "yue"
     }
 ]
