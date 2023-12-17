@@ -1,5 +1,4 @@
 <template>
-
   <h1 class="justify-content-center">
     Context Cards
   </h1>
@@ -22,21 +21,14 @@
   </ul>
 
   <div class="loginGroup">
-    <button
-      type="button"
-      class="btn btn-info"
-      @click="beginAuth">
-    Sign In
-    </button>
+    <!-- <button type="button" class="btn btn-info" @click="beginAuth">
+      Sign In
+    </button> -->
 
-    <button
-      type="button"
-      class="btn btn-link"
-      @click="continueAsGuest">
-    Continue as Guest
+    <button type="button" class="btn btn-link" @click="continueAsGuest">
+      Return to Context Cards
     </button>
   </div>
-
 </template>
 
 <script>
@@ -45,7 +37,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   name: 'LoginPage',
   props: ['beginAuth', 'continueAsGuest'],
-  data () {
+  data() {
     return {
     }
   }
@@ -56,6 +48,7 @@ export default defineComponent({
 .loginGroup {
   margin-top: 50px;
 }
+
 li {
   margin-top: 10px;
 }

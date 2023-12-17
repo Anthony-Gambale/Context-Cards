@@ -9,7 +9,7 @@
 
       <button type="button" v-if="loggedIn == 1 || loggedIn == 3"
         :class="darkMode ? 'btn btn-dark btn-sm sign-out' : 'btn btn-light btn-sm sign-out'" @click="endAuthWrapper">
-        Sign Out
+        About
       </button>
     </div>
 
