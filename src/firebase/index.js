@@ -28,7 +28,7 @@ const auth = getAuth()
 
 // state variables
 let userData = null
-let writeLoggedIn = () => {}
+let writeLoggedIn = () => { }
 
 console.log(app)
 
@@ -38,22 +38,23 @@ auth.onAuthStateChanged((user) => {
     writeLoggedIn(1)
   } else {
     userData = null
-    writeLoggedIn(2)
+    // writeLoggedIn(2)
+    writeLoggedIn(3)
   }
 })
 
 // get write logged in
-function passWriteLoggedIn (fn) {
+function passWriteLoggedIn(fn) {
   writeLoggedIn = fn
 }
 
 // login button
-function beginAuth () {
+function beginAuth() {
   signInWithPopup(auth, provider)
 }
 
 // logout button
-function endAuth () {
+function endAuth() {
   signOut(auth).then(() => {
     writeLoggedIn(2)
     userData = null
@@ -63,11 +64,11 @@ function endAuth () {
 }
 
 // tatoeba API
-function search (word, targetLanguage, passResult) {
-  const base = 'https://tatoeba.elnu.com'
+function search(word, targetLanguage, passResult) {
+  const base = 'https://dashing-occipital-yarn.glitch.me/'
   const urls = [
-    base + `/?from=${targetLanguage}&to=eng&query=${encodeURIComponent(word)}`,
-    base + `/?from=eng&to=${targetLanguage}&query=${encodeURIComponent(word)}`
+    base + `?from=${targetLanguage}&to=eng&query=${encodeURIComponent(word)}`,
+    base + `?from=eng&to=${targetLanguage}&query=${encodeURIComponent(word)}`
   ]
 
   console.log(urls)
@@ -89,7 +90,7 @@ function search (word, targetLanguage, passResult) {
           }
         })
         .filter(item => item !== null)
-      
+
       const fromEnglish = results[1].results
         .map(item => {
           if (item.translations[0][0]) {

@@ -7,93 +7,55 @@
         <label class="form-check-label" for="flexSwitchCheckDefault">Dark</label>
       </div>
 
-      <button
-        type="button"
-        v-if="loggedIn==1 || loggedIn==3"
-        :class="darkMode ? 'btn btn-dark btn-sm sign-out' : 'btn btn-light btn-sm sign-out'"
-        @click="endAuthWrapper">
+      <button type="button" v-if="loggedIn == 1 || loggedIn == 3"
+        :class="darkMode ? 'btn btn-dark btn-sm sign-out' : 'btn btn-light btn-sm sign-out'" @click="endAuthWrapper">
         Sign Out
       </button>
     </div>
 
     <!-- Logged in -->
-    <div v-if="loggedIn==1 || loggedIn==3">
+    <div v-if="loggedIn == 1 || loggedIn == 3">
 
       <ul class="nav nav-underline justify-content-center">
         <li class="nav-item">
-          <a
-            :class="currentView == 'search' ? 'nav-link active' : 'nav-link'"
-            href="#"
-            @click="currentView = 'search'">
+          <a :class="currentView == 'search' ? 'nav-link active' : 'nav-link'" href="#" @click="currentView = 'search'">
             Search
           </a>
         </li>
         <li class="nav-item">
-          <a
-            :class="currentView == 'browse' ? 'nav-link active' : 'nav-link'"
-            href="#"
-            @click="currentView = 'browse'">
+          <a :class="currentView == 'browse' ? 'nav-link active' : 'nav-link'" href="#" @click="currentView = 'browse'">
             Deck
           </a>
         </li>
         <li class="nav-item">
-          <a
-            :class="currentView == 'review' ? 'nav-link active' : 'nav-link'"
-            href="#"
-            @click="currentView = 'review'">
+          <a :class="currentView == 'review' ? 'nav-link active' : 'nav-link'" href="#" @click="currentView = 'review'">
             Review
           </a>
         </li>
         <li class="nav-item">
-          <a
-            :class="currentView == 'export' ? 'nav-link active' : 'nav-link'"
-            href="#"
-            @click="currentView = 'export'">
+          <a :class="currentView == 'export' ? 'nav-link active' : 'nav-link'" href="#" @click="currentView = 'export'">
             Export to Anki
           </a>
         </li>
       </ul>
 
       <!-- Views -->
-      <SearchDeck
-        v-if="currentView === 'search'"
-        :search="search"
-        :addToAnkiExportPile="addToAnkiExportPile"
-        :addToDeck="addToDeck"
-      />
+      <SearchDeck v-if="currentView === 'search'" :search="search" :addToAnkiExportPile="addToAnkiExportPile"
+        :addToDeck="addToDeck" />
 
-      <BrowseDeck
-        v-if="currentView === 'browse'"
-        :readDeck="readDeck"
-        :removeFromDeck="removeFromDeck"
-      />
+      <BrowseDeck v-if="currentView === 'browse'" :readDeck="readDeck" :removeFromDeck="removeFromDeck" />
 
-      <ReviewDeck
-        v-if="currentView === 'review'"
-        :getNextReviewCard="getNextReviewCard"
-        :removeFromDeck="removeFromDeck"
-        :addToPile="addToPile"
-        :maxPileIdx="nPiles-1"
-        :darkMode="darkMode"
-        :updatePreviousReviewedPile="updatePreviousReviewedPile"
-        :updatePreviousRemembered="updatePreviousRemembered"
-        :updatePreviousForgot="updatePreviousForgot"
-      />
+      <ReviewDeck v-if="currentView === 'review'" :getNextReviewCard="getNextReviewCard" :removeFromDeck="removeFromDeck"
+        :addToPile="addToPile" :maxPileIdx="nPiles - 1" :darkMode="darkMode"
+        :updatePreviousReviewedPile="updatePreviousReviewedPile" :updatePreviousRemembered="updatePreviousRemembered"
+        :updatePreviousForgot="updatePreviousForgot" />
 
-      <ExportDeck
-        v-if="currentView === 'export'"
-        :readAnkiExportPile="readAnkiExportPile"
-        :removeFromAnkiExportPile="removeFromAnkiExportPile"
-        :darkMode="darkMode"
-      />
+      <ExportDeck v-if="currentView === 'export'" :readAnkiExportPile="readAnkiExportPile"
+        :removeFromAnkiExportPile="removeFromAnkiExportPile" :darkMode="darkMode" />
 
     </div>
 
-    <LoginPage
-      v-if="loggedIn==2"
-      :beginAuth="beginAuthWrapper"
-      :continueAsGuest="continueAsGuest"
-    />
+    <LoginPage v-if="loggedIn == 2" :beginAuth="beginAuthWrapper" :continueAsGuest="continueAsGuest" />
 
   </div>
 </template>
@@ -120,7 +82,7 @@ export default {
     ReviewDeck,
     SearchDeck
   },
-  data () {
+  data() {
     return {
       tab: null,
       /*
@@ -142,32 +104,32 @@ export default {
     }
   },
   methods: {
-    beginAuthWrapper () {
+    beginAuthWrapper() {
       beginAuth()
     },
-    endAuthWrapper () {
+    endAuthWrapper() {
       endAuth()
     },
-    writeLoggedIn (val) {
+    writeLoggedIn(val) {
       this.loggedIn = val
     },
-    continueAsGuest () {
+    continueAsGuest() {
       this.loggedIn = 3
     },
-    addToAnkiExportPile (card) {
+    addToAnkiExportPile(card) {
       this.ankiExportPile.push(card)
     },
-    readAnkiExportPile () {
+    readAnkiExportPile() {
       return this.ankiExportPile
     },
-    removeFromAnkiExportPile (removeCard) {
+    removeFromAnkiExportPile(removeCard) {
       this.ankiExportPile = this.ankiExportPile.filter(card => card !== removeCard)
     },
-    addToDeck (card) {
+    addToDeck(card) {
       this.deck[0].push(card) // add new cards to the *bottom* of the 0th pile
       this.persistDeck()
     },
-    addToPile (card, pileIdx) {
+    addToPile(card, pileIdx) {
       if (pileIdx < this.deck.length) {
         this.deck[pileIdx].push(card) // add reviewed cards to the *bottom* of the ith pile
       } else {
@@ -175,9 +137,9 @@ export default {
       }
       this.persistDeck()
     },
-    getNextReviewCard () {
+    getNextReviewCard() {
       // check deck size
-      if (this.deck.map(pile => pile.length).reduce((acc,curr) => acc + curr, 0) < 6) {
+      if (this.deck.map(pile => pile.length).reduce((acc, curr) => acc + curr, 0) < 6) {
         return {
           card: null,
           pileno: null
@@ -218,35 +180,35 @@ export default {
         pileno: randomPile
       }
     },
-    readDeck () {
+    readDeck() {
       return this.deck
     },
-    removeFromDeck (removeCard) {
+    removeFromDeck(removeCard) {
       for (let x = 0; x < this.deck.length; x++) {
         this.deck[x] = this.deck[x].filter(card => card !== removeCard)
       }
       this.persistDeck()
     },
-    persistDeck () {
+    persistDeck() {
       const json = JSON.stringify(this.deck)
       localStorage.deck = json
     },
-    updatePreviousReviewedPile (newPrevPile) {
+    updatePreviousReviewedPile(newPrevPile) {
       console.log('previous pile has been updated to ' + newPrevPile)
       this.prevPile = newPrevPile
     },
-    updatePreviousRemembered () {
+    updatePreviousRemembered() {
       console.log('previous review is updated to remembered')
       this.prevRemembered = true
       this.prevForgot = false
     },
-    updatePreviousForgot () {
+    updatePreviousForgot() {
       console.log('previous review is updated to forgotten')
       this.prevRemembered = false
       this.prevForgot = true
     }
   },
-  mounted () {
+  mounted() {
     try {
       this.deck = JSON.parse(localStorage.deck)
     } catch (e) {
@@ -259,7 +221,7 @@ export default {
   },
   watch: {
     darkMode: {
-      handler () {
+      handler() {
         localStorage.darkMode = this.darkMode ? 'enabled' : 'disabled'
         const htmlTag = document.querySelector('html')
         if (this.darkMode) {
@@ -278,12 +240,15 @@ export default {
   max-width: 340px;
   margin: 0 auto;
 }
+
 button {
   margin-right: 20px;
 }
+
 .sign-out {
   margin-top: 7px;
 }
+
 .nav {
   margin-top: 10px;
   margin-bottom: 10px;
