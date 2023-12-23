@@ -4,7 +4,6 @@ import {
   getAuth, signInWithPopup,
   signOut
 } from 'firebase/auth'
-import { inject } from '@vercel/analytics';
 
 // import {
 //   onSnapshot, getFirestore,
@@ -13,7 +12,6 @@ import { inject } from '@vercel/analytics';
 // } from 'firebase/firestore'
 
 // vercel analytics
-inject();
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC0uPkuEpVmxqDUKgZBKXflW-kODhbJmFw',
