@@ -123,7 +123,10 @@ export default {
       return this.ankiExportPile
     },
     removeFromAnkiExportPile(removeCard) {
-      this.ankiExportPile = this.ankiExportPile.filter(card => card !== removeCard)
+      this.ankiExportPile = this.ankiExportPile.filter(card => {
+        return card.english != removeCard.english ||
+          card.targetLanguage != removeCard.targetLanguage
+      })
     },
     addToDeck(card) {
       this.deck[0].push(card) // add new cards to the *bottom* of the 0th pile
@@ -185,7 +188,10 @@ export default {
     },
     removeFromDeck(removeCard) {
       for (let x = 0; x < this.deck.length; x++) {
-        this.deck[x] = this.deck[x].filter(card => card !== removeCard)
+        this.deck[x] = this.deck[x].filter(card => {
+          return card.english != removeCard.english ||
+            card.targetLanguage != removeCard.targetLanguage
+        })
       }
       this.persistDeck()
     },
