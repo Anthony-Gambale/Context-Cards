@@ -63,9 +63,13 @@ export default defineComponent({
           includeScore: true,
           keys: ['english', 'targetLanguage']
         }
-        const fuse = new Fuse(this.currentDeckDisplay[0], options)
-        const result = fuse.search(this.searchText)
-        this.currentDeckDisplay[0] = result.map(object => object.item)
+        let fuse = null
+        let result = []
+        for (let x = 0; x < this.currentDeckDisplay.length; x++) {
+          fuse = new Fuse(this.currentDeckDisplay[x], options)
+          result = fuse.search(this.searchText)
+          this.currentDeckDisplay[x] = result.map(object => object.item)
+        }
       }
     },
     isEmpty() {
