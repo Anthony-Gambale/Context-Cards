@@ -60,6 +60,7 @@ export default defineComponent({
       this.currentDeckDisplay = this.readDeck()
       if (this.searchText != "") {
         const options = {
+          shouldSort: true,
           includeScore: true,
           keys: ['english', 'targetLanguage']
         }
