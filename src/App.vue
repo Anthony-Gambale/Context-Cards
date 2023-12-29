@@ -181,7 +181,7 @@ export default {
       }
     },
     readDeck() {
-      return this.deck
+      return JSON.parse(JSON.stringify(this.deck))
     },
     removeFromDeck(removeCard) {
       for (let x = 0; x < this.deck.length; x++) {
