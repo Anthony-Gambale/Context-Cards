@@ -8,7 +8,7 @@
 
   <div class="input-group mb-3">
     <input type="text" class="form-control" :placeholder="searchBarText" aria-label="Text input with clear button"
-      aria-describedby="button-addon2" v-model="searchText" @keydown.enter="searchButtonClicked">
+      aria-describedby="button-addon2" v-model="searchText" @keydown="filterVisibleDeck">
     <button class="btn btn-outline-secondary" type="button" id="button-addon2" @click="searchButtonClicked">
       {{ buttonText }}
     </button>
@@ -49,14 +49,18 @@ export default defineComponent({
       return 'Type to filter'
     },
     buttonText() {
-      if (this.searchText == "") {
-        return "Show all cards"
-      }
-      return "Filter cards"
+      return "Show all cards"
+      // if (this.searchText == "") {
+      //   return "Show all cards"
+      // }
+      // return "Filter cards"
     }
   },
   methods: {
     searchButtonClicked() {
+      this.currentDeckDisplay = this.readDeck()
+    },
+    filterVisibleDeck() {
       this.currentDeckDisplay = this.readDeck()
       if (this.searchText != "") {
         const options = {
