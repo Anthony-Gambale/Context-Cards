@@ -1,49 +1,33 @@
 <template>
-
   <h1>Search</h1>
 
   <div class="input-group mb-3">
-    <button
-      class="btn btn-outline-secondary dropdown-toggle"
-      type="button" data-bs-toggle="dropdown"
+    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
       aria-expanded="false">
       {{ dropDownText }}
     </button>
     <ul class="dropdown-menu">
-      <li
-        v-for="(language,i) in languageNames"
-        :key="i">
-        <a
-          class="dropdown-item"
-          @click="targetLanguage = language">
+      <li v-for="(language, i) in languageNames" :key="i">
+        <a class="dropdown-item" @click="targetLanguage = language">
           {{ language }}
         </a>
       </li>
     </ul>
-    <input
-      type="text"
-      class="form-control"
-      aria-label="Text input with dropdown button"
-      :placeholder="searchBarText"
-      v-model="searchText"
-      @keydown.enter="clickSearch">
+    <input type="text" class="form-control" aria-label="Text input with dropdown button" :placeholder="searchBarText"
+      v-model="searchText" @keydown.enter="clickSearch">
   </div>
 
   <!-- Spinner -->
-  <div
-    class="spinner-border" role="status"
-    v-if="spinnerEnabled">
+  <div class="spinner-border" role="status" v-if="spinnerEnabled">
     <span class="visually-hidden">Loading...</span>
   </div>
 
-  <SearchCard
-    v-for="(sentence, i) in searchResults"
-    :key="i"
-    :searchResult="sentence"
-    :addToAnkiExportPile="addToAnkiExportPile"
-    :addToDeck="addToDeck"
-  />
+  <p v-if="showWarning">
+    The first search can take a while (~10s)
+  </p>
 
+  <SearchCard v-for="(sentence, i) in searchResults" :key="i" :searchResult="sentence"
+    :addToAnkiExportPile="addToAnkiExportPile" :addToDeck="addToDeck" />
 </template>
 
 <script>
@@ -61,21 +45,22 @@ export default defineComponent({
     SearchCard
   },
   computed: {
-    searchBarText () {
+    searchBarText() {
       if (this.targetLanguage == null || this.targetLanguage == 'undefined') {
         return ''
       }
       return 'Search in English or ' + this.targetLanguage
     },
-    dropDownText () {
+    dropDownText() {
       if (this.targetLanguage == null || this.targetLanguage == 'undefined') {
         return 'Select Target Language'
       }
       return this.targetLanguage
     }
   },
-  data () {
+  data() {
     return {
+      showWarning: true,
       searchText: '',
       targetLanguage: null,
       languageNames: languages.map(lang => lang.name),
@@ -84,7 +69,8 @@ export default defineComponent({
     }
   },
   methods: {
-    clickSearch () {
+    clickSearch() {
+      this.showWarning = false
       if (this.targetLanguage == null || this.targetLanguage == 'undefined') return
       this.spinnerEnabled = true
       search(
@@ -93,7 +79,7 @@ export default defineComponent({
         this.passResult
       )
     },
-    getTargetLanguageCode () {
+    getTargetLanguageCode() {
       if (this.targetLanguage === null) {
         return null
       } else {
@@ -106,23 +92,23 @@ export default defineComponent({
         }
       }
     },
-    passResult (result) {
+    passResult(result) {
       this.searchResults = result
     }
   },
-  mounted () {
+  mounted() {
     if (localStorage.targetLanguage !== '') {
       this.targetLanguage = localStorage.targetLanguage
     }
   },
   watch: {
     targetLanguage: {
-      handler () {
+      handler() {
         localStorage.targetLanguage = this.targetLanguage
       }
     },
     searchResults: {
-      handler () {
+      handler() {
         this.spinnerEnabled = false
         console.log(this.searchResults)
       }
