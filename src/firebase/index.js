@@ -4,11 +4,14 @@ import {
   getAuth, signInWithPopup,
   signOut
 } from 'firebase/auth'
+
 // import {
 //   onSnapshot, getFirestore,
 //   collection, addDoc, doc, deleteDoc,
 //   query, orderBy, where
 // } from 'firebase/firestore'
+
+// vercel analytics
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC0uPkuEpVmxqDUKgZBKXflW-kODhbJmFw',

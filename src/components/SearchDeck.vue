@@ -28,6 +28,10 @@
 
   <SearchCard v-for="(sentence, i) in searchResults" :key="i" :searchResult="sentence"
     :addToAnkiExportPile="addToAnkiExportPile" :addToDeck="addToDeck" />
+
+  <div v-if="searchFailed">
+    No results.
+  </div>
 </template>
 
 <script>
@@ -61,6 +65,7 @@ export default defineComponent({
   data() {
     return {
       showWarning: true,
+      searchFailed: false,
       searchText: '',
       targetLanguage: null,
       languageNames: languages.map(lang => lang.name),
@@ -69,8 +74,12 @@ export default defineComponent({
     }
   },
   methods: {
+    isEmpty(object) {
+      return Object.keys(object).length == 0
+    },
     clickSearch() {
       this.showWarning = false
+      this.searchFailed = false
       if (this.targetLanguage == null || this.targetLanguage == 'undefined') return
       this.spinnerEnabled = true
       search(
@@ -111,6 +120,8 @@ export default defineComponent({
       handler() {
         this.spinnerEnabled = false
         console.log(this.searchResults)
+        if (this.isEmpty(this.searchResults))
+          this.searchFailed = true
       }
     }
   }

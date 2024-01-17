@@ -36,47 +36,7 @@
         "code": "ita"
     },
     {
-        "name": "Arabic",
-        "code": "ara"
-    },
-    {
         "name": "Dutch",
         "code": "nld"
-    },
-    {
-        "name": "Swedish",
-        "code": "swe"
-    },
-    {
-        "name": "Latin",
-        "code": "lat"
-    },
-    {
-        "name": "Danish",
-        "code": "dan"
-    },
-    {
-        "name": "Hindi",
-        "code": "hin"
-    },
-    {
-        "name": "Telugu",
-        "code": "tel"
-    },
-    {
-        "name": "Tamil",
-        "code": "tam"
-    },
-    {
-        "name": "Yoruba",
-        "code": "yor"
-    },
-    {
-        "name": "Korean",
-        "code": "kor"
-    },
-    {
-        "name": "Cantonese",
-        "code": "yue"
     }
 ]
