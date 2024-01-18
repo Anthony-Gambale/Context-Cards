@@ -78,7 +78,6 @@ export default defineComponent({
       return Object.keys(object).length == 0
     },
     clickSearch() {
-      this.showWarning = false
       this.searchFailed = false
       if (this.targetLanguage == null || this.targetLanguage == 'undefined') return
       this.spinnerEnabled = true
@@ -102,6 +101,7 @@ export default defineComponent({
       }
     },
     passResult(result) {
+      this.showWarning = false
       this.searchResults = result
     }
   },
