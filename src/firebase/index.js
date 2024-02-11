@@ -68,7 +68,8 @@ function endAuth() {
 
 // tatoeba API
 function search(word, targetLanguage, passResult) {
-  const base = 'https://dashing-occipital-yarn.glitch.me/'
+  //const base = 'https://dashing-occipital-yarn.glitch.me/'
+  const base = 'https://context-cards.vercel.app/api/search/'
   const urls = [
     base + `?from=${targetLanguage}&to=eng&query=${encodeURIComponent(word)}`,
     base + `?from=eng&to=${targetLanguage}&query=${encodeURIComponent(word)}`
