@@ -22,9 +22,9 @@
     <span class="visually-hidden">Loading...</span>
   </div>
 
-  <p v-if="showWarning">
+<!--   <p v-if="showWarning">
     The first search can take a while (~10s)
-  </p>
+  </p> -->
 
   <SearchCard v-for="(sentence, i) in searchResults" :key="i" :searchResult="sentence"
     :addToAnkiExportPile="addToAnkiExportPile" :addToDeck="addToDeck" />
